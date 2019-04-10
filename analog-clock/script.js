@@ -21,7 +21,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
             secondsAngle += 6;
             minAngle += 0.1;
             hourAngle += 1/120;
+
+            adjustArms(hourAngle, minAngle, secondAngle);
         }
+
+        function adjustArms(a,b,c) {
 
         setInterval(updateArmsLocation, 1000);
 
