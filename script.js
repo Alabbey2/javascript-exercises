@@ -19,4 +19,12 @@ $.getJSON(
     paramsForFlickr,
     handleResponse,
 );
+
+$(document).ready(function(){
+    $('search').on('click', function(){
+        var searchTerm = $('#searchTerm').val();
+        console.log(searchTerm);
+        doAjaxCall();
+    });
+});
    
