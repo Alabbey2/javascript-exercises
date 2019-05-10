@@ -1,16 +1,36 @@
 var flickrAPI = '//api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?';
-
+/**
+ * call the render function to render image content if there are result,
+ * otherwise, discard and print out the notification that nothing is found
+ * call addFavouriteButtonEvent function once finished rendering images
+ * 
+ * @param {Object}      resp contains the data that we retrieved from the AJAX call to flickr
+ * @return {Boolean}    false if no image is found
+ * @return (Void)       if images get rendered    
+ */
 
 function handleResponse(resp) {
     console.log('The request has been completed'); 
     console.log(resp);
+    
+    if (resp.items.length === 0) {
+        $('#imageWrapper').text('There is no image matching your search term');
+        return;
+    }
+
     renderContent(resp);
+    addFavouriteButtonEvent();
 }
 
+function addFavouriteButtonEvent() {
+    $('.favourite').click(function(){
+        console.log('Try to add to favourite');
+    });
+}
 function renderContent(resp) {
     $('#flickrLink').text(resp.link);
     $('#flickrTitle').text(resp.title);
-    $('#image-wrapper').html('');
+    $('#image-wrapper').html(''); // clear out previous search result
     
     var imageItems = resp.items,
         index = resp.items.length;
@@ -21,7 +41,13 @@ function renderContent(resp) {
 
 }
 function createImage(url) {
-    $("#image-wrapper").append('<img src ="'+ url + '"></img>');
+    $('#image-wrapper').append(
+    <div class="col-md-3 col-sm-4 col-xs-6">    
+    <img class="img-responsive" src ="`+ url + ">
+    </img>
+    <button class="favourite">Favourite</button>
+</div>
+);
 }
 
 function doAjaxCall(searchTerm) {
@@ -49,8 +75,3 @@ $(document).ready(function(){
         $("#searchTerm").on("change", function(){
             var searchTerm = $("#searchTerm").val();
             console.log(searchTerm);
-            doAjaxCall(searchTerm);
-            
-            });
-        
-});
